@@ -2,7 +2,7 @@ import React, { Suspense, useRef, useMemo } from "react";
 import { Canvas, useFrame } from "react-three-fiber";
 import { Object3D } from "three";
 import cloudImg from "./images/smoke.png";
-import { OrbitControls, useTextureLoader } from "drei";
+import { useTextureLoader } from "drei";
 import "./App.css";
 
 function Cloud() {
@@ -39,7 +39,7 @@ function Cloud() {
   });
 
   return (
-    <instancedMesh ref={ref} args={[null, null, 50]}>
+    <instancedMesh ref={ref} args={[null, null, 40]}>
       <planeBufferGeometry attach="geometry" args={[500, 500]} />
       <meshLambertMaterial
         attach="material"
@@ -73,42 +73,40 @@ function App() {
       <Canvas camera={{ fov: 60, position: [0, 0, 250], far: 6000 }}>
         <directionalLight
           color="#ff1100"
-          intensity={2}
+          intensity={1.2}
           position={[0, 0, 200]}
         />
         <directionalLight
           color="#ff1100"
-          intensity={2}
+          intensity={0.2}
           position={[0, 0, -200]}
           rotation={[1, 0, 0]}
         />
         <ambientLight color="#555555" intensity={0.5} />
         <pointLight
           color="#d40027"
-          intensity={20}
+          intensity={30}
           position={[-200, 0, -40]}
-          distance={2000}
+          distance={500}
           decay={1.5}
         />
         <pointLight
           color="#d8547e"
-          intensity={20}
+          intensity={30}
           position={[100, 0, -40]}
-          distance={2000}
-          decay={1.5}
+          distance={500}
+          decay={1}
         />
         <pointLight
           color="#ff0048"
-          intensity={20}
+          intensity={30}
           position={[300, 0, -50]}
-          distance={2000}
+          distance={500}
           decay={1.5}
         />
-        <Dibba />
         <Suspense fallback={null}>
           <Cloud />
         </Suspense>
-        <OrbitControls />
       </Canvas>
     </>
   );
