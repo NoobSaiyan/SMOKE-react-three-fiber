@@ -1,23 +1,27 @@
 import React, { Suspense, useRef, useMemo } from "react";
-import { Canvas, useFrame, useLoader } from "react-three-fiber";
-import { TextureLoader, Object3D } from "three";
-import textureUrl from "./images/smoke.png";
-import { OrbitControls } from "drei";
+import { Canvas, useFrame } from "react-three-fiber";
+import { Object3D } from "three";
+import cloudImg from "./images/smoke.png";
+import { OrbitControls, useTextureLoader } from "drei";
 import "./App.css";
 
 function Cloud() {
   const tempObject = useMemo(() => new Object3D(), []);
   const ref = useRef();
-  const texture = useLoader(TextureLoader, textureUrl);
+  const texture = useTextureLoader(cloudImg);
 
   const particles = useMemo(() => {
     const cloudParticles = [];
     for (let p = 0; p < 50; p++) {
       const positionX = Math.random() * 800 - 400;
-      const positionZ = Math.random() * 500 - 400;
+      const positionZ = Math.random() * 500 - 500;
       const rotationZ = Math.random() * 2 * Math.PI;
 
-      cloudParticles.push({ positionX, positionZ, rotationZ });
+      cloudParticles.push({
+        positionX,
+        positionZ,
+        rotationZ,
+      });
     }
     return cloudParticles;
   });
@@ -40,8 +44,9 @@ function Cloud() {
       <meshLambertMaterial
         attach="material"
         map={texture}
-        transparent={true}
-        opacity={0.5}
+        depthWrite={false}
+        transparent
+        opacity={0.55}
       />
     </instancedMesh>
   );
@@ -57,7 +62,7 @@ function Dibba() {
   return (
     <mesh ref={mesh}>
       <boxBufferGeometry attach="geometry" args={[20, 20, 20]} />
-      <meshPhongMaterial attach="material" />
+      <meshLambertMaterial attach="material" />
     </mesh>
   );
 }
@@ -65,24 +70,40 @@ function Dibba() {
 function App() {
   return (
     <>
-      <Canvas camera={{ fov: 60, position: [0, 0, 650] }}>
-        <fog attach="fog" args={["#090b1f", 0, 25]} />
-        <ambientLight color="#555555" intensity={0.2} />
+      <Canvas camera={{ fov: 60, position: [0, 0, 250], far: 6000 }}>
         <directionalLight
           color="#ff1100"
           intensity={2}
           position={[0, 0, 200]}
         />
-
         <directionalLight
           color="#ff1100"
-          intensity={20}
+          intensity={2}
           position={[0, 0, -200]}
           rotation={[1, 0, 0]}
         />
-        <pointLight color="#d40027" intensity={20} position={[-200, 0, -40]} />
-        <pointLight color="#d8547e" intensity={20} position={[100, 0, -40]} />
-        <pointLight color="#ff0048" intensity={20} position={[300, 0, -50]} />
+        <ambientLight color="#555555" intensity={0.5} />
+        <pointLight
+          color="#d40027"
+          intensity={20}
+          position={[-200, 0, -40]}
+          distance={2000}
+          decay={1.5}
+        />
+        <pointLight
+          color="#d8547e"
+          intensity={20}
+          position={[100, 0, -40]}
+          distance={2000}
+          decay={1.5}
+        />
+        <pointLight
+          color="#ff0048"
+          intensity={20}
+          position={[300, 0, -50]}
+          distance={2000}
+          decay={1.5}
+        />
         <Dibba />
         <Suspense fallback={null}>
           <Cloud />
