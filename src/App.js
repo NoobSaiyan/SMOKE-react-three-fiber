@@ -24,7 +24,7 @@ function Cloud() {
       });
     }
     return cloudParticles;
-  });
+  },[]);
 
   useFrame((state) => {
     particles.forEach((particle, i) => {
@@ -53,19 +53,19 @@ function Cloud() {
 }
 
 //revolving dibba for test
-function Dibba() {
-  const mesh = useRef();
-  useFrame(
-    () =>
-      (mesh.current.rotation.x = mesh.current.rotation.y = mesh.current.rotation.z += 0.01)
-  );
-  return (
-    <mesh ref={mesh}>
-      <boxBufferGeometry attach="geometry" args={[20, 20, 20]} />
-      <meshLambertMaterial attach="material" />
-    </mesh>
-  );
-}
+// function Dibba() {
+//   const mesh = useRef();
+//   useFrame(
+//     () =>
+//       (mesh.current.rotation.x = mesh.current.rotation.y = mesh.current.rotation.z += 0.01)
+//   );
+//   return (
+//     <mesh ref={mesh}>
+//       <boxBufferGeometry attach="geometry" args={[20, 20, 20]} />
+//       <meshLambertMaterial attach="material" />
+//     </mesh>
+//   );
+// }
 
 function App() {
   return (
