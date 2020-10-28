@@ -70,6 +70,7 @@ function Dibba() {
 function App() {
   return (
     <>
+      <div className='head'>NoobSaiyan</div>
       <Canvas camera={{ fov: 60, position: [0, 0, 250], far: 6000 }}>
         <directionalLight
           color="#ff1100"
